@@ -16,9 +16,6 @@ arcpy.SelectLayerByAttribute_management(inputFtN, "NEW_SELECTION", queryState)
 # Creates a temporary feature layer from the selected items
 arcpy.MakeFeatureLayer_management(inputFtN, "FtN_lyr")
 
-#Clears the selection to use that feature for additional selections later.
-arcpy.SelectLayerByAttribute_management(inputFtN, "ClEAR_SELECTION")
-
 "Creates a variable that holds the layer name made in the previous step."
 Ftn_Layer = "FtN_lyr"
 
@@ -49,6 +46,7 @@ message2 = "Number of Grids selected " + str(result2)
 #Displays the message in tool details.
 arcpy.AddMessage(message2)
 
+GridNumList=[]
 
 #Now for the nasty stuff.
 #1. Creates a cursor on the selected Grids.
@@ -56,5 +54,11 @@ arcpy.AddMessage(message2)
 cursor = arcpy.da.SearchCursor(Grid_Layer, "NewGridNo")
 for row in cursor:
     arcpy.AddMessage(row)
-    #GridCQuery = "NewGridNo LIKE " + str(row)
-    #arcpy.SelectLayerByAttribute_management(Grid_Layer,'NEW_SELECTION', GridCQuery)
+    rowStr = str(row)
+    rowStr = rowStr[2:7]
+    GridNumList.append(rowStr)
+
+for grid in GridNumList:
+    rowquery = "NewGridNo LIKE %"+ grid + "%"
+    arcpy.AddMessage(rowquery)
+    arcpy.SelectLayerByAttribute_management()
