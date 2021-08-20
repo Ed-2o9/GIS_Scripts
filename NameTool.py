@@ -59,6 +59,6 @@ for row in cursor:
     GridNumList.append(rowStr)
 
 for grid in GridNumList:
-    rowquery = "NewGridNo LIKE %"+ grid + "%"
+    rowquery = """{} LIKE '%{}%'""".format("NewGridNo", str(grid))
     arcpy.AddMessage(rowquery)
-    arcpy.SelectLayerByAttribute_management()
+    arcpy.SelectLayerByAttribute_management(Grid_Layer,"NEW_SELECTION", rowquery )
