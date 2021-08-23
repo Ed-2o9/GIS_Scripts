@@ -49,7 +49,7 @@ arcpy.AddMessage(message2)
 arcpy.SelectLayerByAttribute_management(inputGrid, 'CLEAR_SELECTION')
 
 # Creates a list to store grid numbers.
-GridNumList=[]
+GridNumList = []
 
 # 1. Creates a cursor on the selected Grids.
 # 2. Creates messages showing the Grid numbers.
@@ -61,8 +61,26 @@ for row in cursor:
     rowStr = rowStr[2:7]
     GridNumList.append(rowStr)
 
-# Loops through grid numbers selecting that grid.
+# 1.Loops through grid numbers selecting that grid.
 for grid in GridNumList:
     rowquery = """{} LIKE '%{}%'""".format("NewGridNo", str(grid))
     arcpy.AddMessage(rowquery)
     arcpy.SelectLayerByAttribute_management(inputGrid,"NEW_SELECTION", rowquery)
+# Select from the input feature that intersects the selected Grid.
+    arcpy.SelectLayerByLocation_management(inputFtN, "INTERSECT", inputGrid)
+# Printing out selected point count to check if it's working.
+    pCount = arcpy.GetCount_management(inputFtN)
+    arcpy.AddMessage(pCount)
+    vcount = 0
+# Start an update cursor to go through FACILITYID attribute.
+    with arcpy.da.UpdateCursor(inputFtN,'FACILITYID') as cursor:
+        for x in cursor:
+# Check to see if it's a System Valve and count it.
+            if ("SV" in str(x)) and ("XXX" not in str(x)):
+                vcount = vcount + 1
+                arcpy.AddMessage(vcount)
+
+
+
+
+
