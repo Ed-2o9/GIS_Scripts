@@ -72,15 +72,21 @@ for grid in GridNumList:
     pCount = arcpy.GetCount_management(inputFtN)
     arcpy.AddMessage(pCount)
     vcount = 0
+    vname = ""
 # Start an update cursor to go through FACILITYID attribute.
     with arcpy.da.UpdateCursor(inputFtN,'FACILITYID') as cursor:
         for x in cursor:
 # Check to see if it's a System Valve and count it.
             if ("SV" in str(x)) and ("XXX" not in str(x)):
                 vcount = vcount + 1
-                arcpy.AddMessage(vcount)
-
-
-
-
-
+# Check to see if it is not named properly or maybe a stupid hydrant that snuck in here.
+            if ("SV" not in str(x) or "XXX" in str(x)) and ("FH" not in str(x)):
+                vcount = vcount + 1
+                if vcount < 100:
+                    vname = str(grid) + "_" + "SV"  + "0" + str(vcount)
+                if vcount > 100:
+                    vname = str(grid) + "_" + "SV" + str(vcount)
+# Updates the Features Facility ID
+                arcpy.AddMessage(vname)
+                x = vname
+                cursor.updateRow([x])
