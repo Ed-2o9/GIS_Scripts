@@ -8,7 +8,7 @@ inputFtN = arcpy.GetParameter(0)
 inputGrid = arcpy.GetParameter(1)
 
 # SQL query for selection of Nulls and names that contain by XXX.
-queryState = "FACILITYID IS NULL Or FACILITYID LIKE '%XXX%'"
+queryState = "FACILITYID IS NULL Or FACILITYID LIKE '%XXX%' Or FACILITYID LIKE '%_'"
 
 # Search for Nulls in the feature that needs a name.
 arcpy.SelectLayerByAttribute_management(inputFtN, "NEW_SELECTION", queryState)
