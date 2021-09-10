@@ -55,6 +55,7 @@ GridNumList = []
 datalist = []
 # Create a string that will later notate the data type.
 dataType = ""
+
 # Determine Data type
 with arcpy.da.SearchCursor(inputFtN, 'FACILITYID') as cursor:
     for D in cursor:
@@ -64,6 +65,8 @@ if ("SV" in datalist[0]):
     dataType = "SV"
 if ("WL" in datalist[0]):
     dataType = "WL"
+if ("MH" in datalist[0]):
+    dataType = "MH"
 arcpy.AddMessage(dataType)
 
 # 1. Creates a cursor on the selected Grids.
@@ -71,7 +74,6 @@ arcpy.AddMessage(dataType)
 # 3. Appends the Grid number for that row into a list.
 with arcpy.da.SearchCursor(Grid_Layer, "NewGridNo") as cursor:
     for row in cursor:
-        arcpy.AddMessage(row)
         rowStr = str(row)
         rowStr = rowStr[2:7]
         GridNumList.append(rowStr)
