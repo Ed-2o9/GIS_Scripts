@@ -75,6 +75,7 @@ for m in MobjID:
             gridname = str(row[0])
 # Select manholes that intersect with the sewer line.
     arcpy.SelectLayerByLocation_management(inputMH, "INTERSECT", inputFtN)
+    fields = ["FACILITYID"]
 # Create a variable that holds the manholes that intersect count.
     gcount = arcpy.GetCount_management(inputMH)
     if str(gcount) == "2" :

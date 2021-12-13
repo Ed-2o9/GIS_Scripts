@@ -10,7 +10,7 @@ inputMH = arcpy.GetParameter(1)
 inputGrid = arcpy.GetParameter(2)
 
 # SQL query for selection of Nulls and names that contain by XXX.
-queryState = "FACILITYID IS NULL OR FACILITYID IS '1'"
+queryState = "FACILITYID IS NULL OR FACILITYID = '1'"
 
 #Select sewer line that need names
 arcpy.SelectLayerByAttribute_management(inputFtN, "NEW_SELECTION", queryState)

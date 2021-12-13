@@ -8,7 +8,7 @@ inputgrid = arcpy.GetParameter(1)
 
 
 
-minfoquery = "FromMH IS NOT NULL And ToMH IS NOT NULL"
+minfoquery = "FromMH IS NOT NULL And ToMH IS NOT NULL And FacilityID = '1'"
 
 #Select sewer lines with manhole info
 arcpy.SelectLayerByAttribute_management(inputftf, "NEW_SELECTION", minfoquery)
