@@ -64,3 +64,4 @@ for i in range(len(featseq)):
             for row in cursor:
                 row[0] = str(row[0]) + "_" + str(dupecount)
                 arcpy.AddMessage(row[0])
+                cursor.updateRow(row)
